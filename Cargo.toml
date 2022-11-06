@@ -1,0 +1,9 @@
+[package]
+name = "bloom_filter"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitvec = "1.0.1"
+rand = "0.8.5"
+seahash = "4.1.0"
