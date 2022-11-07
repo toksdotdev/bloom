@@ -7,7 +7,7 @@ Nothing new here. Just another [bloom filter](https://en.wikipedia.org/wiki/Bloo
 
 ## Usage
 
-### Bloom with [seahash](https://docs.rs/seahash/latest/seahash)
+### Classic bloom with [seahash](https://docs.rs/seahash/latest/seahash)
 
 An [optimal](https://en.wikipedia.org/wiki/Bloom_filter#Optimal_number_of_hash_functions) basic filter which makes makes use of SeaHasher as the underlying hash function. If you'll like to use a customer hashing function, check [here].
 
@@ -61,7 +61,7 @@ fn build_hashers(k: usize) -> Vec<impl Hasher> {
 fn main() {
     let (m, false_positive_rate) = (100_000, 0.01);
     let bit_size = optimal_bit_size(m, false_positive_rate);
-    let hash_count = optimal_hash_size(m, false_positive_rate); // also referred to as, k.
+    let hash_count = optimal_hash_count(m, false_positive_rate); // also referred to as, k.
 
     let hashers = build_hashers(hash_count);
     let bloom = BloomFilter::new(bit_size, hashers);
@@ -69,7 +69,7 @@ fn main() {
 }
 ```
 
-### Counting bloom into bloom
+### Counting bloom into classic bloom
 
 `CountingBloomFilter` implements the `From<T>` trait, and can easily be converted into the default `BloomFilter` without losing the underlying bit mask data. The only information that gets truncated is the `counter` which keeps track of inserted items (only needed within the confines of a counting bloom filter).
 
