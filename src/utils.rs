@@ -1,7 +1,8 @@
 use std::hash::Hash;
 use std::hash::Hasher;
 
-use rand::{thread_rng, Rng};
+use rand::thread_rng;
+use rand::Rng;
 use seahash::SeaHasher;
 
 /// Hash a content with the provided hasher.

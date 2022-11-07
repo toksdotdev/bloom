@@ -1,11 +1,11 @@
+use crate::utils::build_seahash_functions;
+use crate::utils::optimal_bit_size;
+use crate::utils::optimal_hash_count;
+use crate::BloomFilter;
+
 use seahash::SeaHasher;
 
-use crate::{
-    utils::{build_seahash_functions, optimal_bit_size, optimal_hash_count},
-    BloomFilter,
-};
-
-/// Create an bloom filter which uses seahash for its underlying hash.
+/// Create an bloom filter which uses seahash as its underlying hash function.
 pub fn seahash_bloom_filter(m: usize, false_positive_rate: f64) -> BloomFilter<SeaHasher> {
     let bit_size = optimal_bit_size(m, false_positive_rate);
     let hash_counts = optimal_hash_count(m, bit_size);
@@ -29,7 +29,7 @@ mod unit {
     }
 
     #[test]
-    fn test_seahash_bloom_filter() {
+    fn test_check_for_seahash_bloom_filter() {
         let mut bloom = seahash_bloom_filter(100_000, 0.01);
         bloom.insert("Bob");
         bloom.insert("John");
@@ -41,7 +41,7 @@ mod unit {
         assert!(bloom.check("Toks"));
         assert!(bloom.check("Linda"));
         assert!(!bloom.check("john1"));
-        assert!(!bloom.check("toks1"));
-        assert!(!bloom.check("linda1"));
+        assert!(!bloom.check("toksxyz"));
+        assert!(!bloom.check("lindaz01"));
     }
 }
